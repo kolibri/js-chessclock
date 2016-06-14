@@ -39,7 +39,7 @@
         .to-move {
             color: red;
         }
-        
+
         .name {
             font-size: 3vw;
         }
@@ -104,9 +104,9 @@
             }
         }
 
-        render(state, time);
         var refreshId = setInterval(function() {
             if ('pause' == state) {
+                render(state, time);
                 return;
             }
 
@@ -136,14 +136,11 @@
         var reset = document.getElementById('reset');
         reset.addEventListener("click", function(e) {
             //console.log('reset');
-
             state = 'pause';
             time = {
                 'white': document.getElementById('ms-white').value * 1000,
                 'black': document.getElementById('ms-black').value * 1000
             };
-
-            render(state, time);
         }, false);
     </script>
 </body>
