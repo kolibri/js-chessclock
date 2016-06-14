@@ -1,152 +1,139 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <title>TikTek</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
-        <style>
-            body,
-            html {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-            }
-            #chessclock {
-                width: 100%;
-                height: 40%;
-            }
-            .player {
-                background-color: white;
-                height: 100%;
-                color: black;
-            }
-            .player.gameover {
-                background-color: grey;
-                color: white;
-            }
-            .player.gameover.to-move {
-                background-color: black;
-                color: red;
-            }
-            .player div {
-                text-align: center;
-            }
-            .name {
-                font-size: 3vw;
-            }
-            .time {
-                font-size: 15vw;
-                font-size: 1vw;
-            }
-            .to-move {
-                color: red;
-            }
+<head>
+    <meta charset="UTF-8" />
+    <title>TikTek</title>
 
-        </style>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
-        <div id="chessclock" class="pure-g" data-state="pause">
-            <div id="white" class="player pure-u-1-2">
-                <div class="name">White</div>
-                <div class="time" data-time="900000">15:00</div>
-            </div>
-            <div id="black" class="player pure-u-1-2">
-                <div class="name">Black</div>
-                <div class="time" data-time="900000">15:00</div>
-            </div>
+        #chessclock {
+            width: 100%;
+            height: 40%;
+        }
+
+        .player {
+            background-color: white;
+            height: 100%;
+            color: black;
+        }
+
+        .player.gameover {
+            background-color: grey;
+            color: white;
+        }
+
+        .player.gameover.to-move {
+            background-color: black;
+            color: red;
+        }
+
+        .player div {
+            text-align: center;
+        }
+
+        .name {
+            font-size: 3vw;
+        }
+
+        .time {
+            font-size: 15vw;
+            font-size: 1vw;
+        }
+
+        .to-move {
+            color: red;
+        }
+    </style>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+
+<body>
+
+    <div id="chessclock" class="pure-g">
+        <div id="white" class="player pure-u-1-2">
+            <div class="name">White</div>
+            <div class="time"></div>
         </div>
-
-        <div id="configs" class="pure-g">
-            <form name="reset" action="#" class="pure-form" id="reset">
-                <input type="number" name="white" placeholder="White" value="900"/>
-                <input type="number" name="black" placeholder="Black" value="900"/>
-                <input type="submit" value="set" class="pure-button pure-button-primary"/>
-            </form>
+        <div id="black" class="player pure-u-1-2">
+            <div class="name">Black</div>
+            <div class="time"></div>
         </div>
+    </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var interval = 1000;
-                var pause = true;
+    <div id="configs" class="pure-g">
+        <form name="reset" action="#" class="pure-form" id="reset">
+            <input type="number" name="white" placeholder="White" value="900" />
+            <input type="number" name="black" placeholder="Black" value="900" />
+            <input type="submit" value="set" class="pure-button pure-button-primary" />
+        </form>
+    </div>
 
-                $('.player').click(function(e) {
-                    e.preventDefault();
-                    console.log('TAK');
-                    var state = $('#chessclock').attr('data-state');
-                    var invert = (state == 'white')
-                        ? 'black'
-                        : 'white';
+    <script type="text/javascript">
+        var classActive = 'to-move';
+        var classGameOver = 'gameover';
+        var interval = 1000;
+        var state = 'white';
+        var time = {
+            'white': 3 * 1000,
+            'black': 10 * 1000
+        };
 
-                    if (pause) {
-                        pause = false;
-                        $('#chessclock').attr('data-state', ($(this).attr("id") == 'white')
-                            ? 'black'
-                            : 'white');
-                    }
+        function render(state, time) {
+            for (player in time) {
+                document.querySelector('#' + player + ' .time').innerText = fromMillisecondsToTime(time[player]);
 
-                    if ($(this).attr('id') != state) {
-                        return;
-                    }
-
-                    $('#chessclock').attr('data-state', invert);
-                });
-
-                $('#reset').submit(function(e) {
-                    e.preventDefault();
-                    $('#chessclock').attr('data-state', 'pause');
-                    whiteMs = $('input[name=white]').val() * 1000;
-                    blackMs = $('input[name=black]').val() * 1000;
-                    $('#white .time').attr('data-time', whiteMs);
-                    $('#black .time').attr('data-time', blackMs)
-
-                    $('#white').removeClass('to-move');
-                    $('#black').removeClass('to-move');
-                    $('#white').removeClass('gameover');
-                    $('#black').removeClass('gameover');
-
-                    $('#white .time').text(fromMillisecondsToTime(whiteMs));
-                    $('#black .time').text(fromMillisecondsToTime(blackMs));
-                    console.log("set");
-                });
-
-                function fromMillisecondsToTime(seconds) {
-                    seconds = Math.round(seconds / 1000);
-                    var time = '' + ((seconds < 0)
-                        ? '-'
-                        : '') + (Math.abs(Math.round(seconds / 60)) < 10
-                        ? '0'
-                        : '') + Math.abs(Math.round(seconds / 60)) + ':' + (Math.abs(seconds % 60) < 10
-                        ? '0'
-                        : '') + Math.abs(seconds % 60);
-
-                    return time;
+                if (player == state) {
+                    document.getElementById(player).classList.add(classActive);
+                } else {
+                    document.getElementById(player).classList.remove(classActive);
                 }
 
-                var refreshId = setInterval(function() {
-                    if (pause) {
-                        return;
-                    }
-                    var state = $('#chessclock').attr('data-state');
-                    var invert = (state == 'white')
-                        ? 'black'
-                        : 'white';
-                    var playerTime = $('#' + $('#chessclock').attr('data-state')).find('.time');
-                    var newtime = $(playerTime).attr('data-time') - interval;
-                    $(playerTime).attr('data-time', newtime);
-                    $(playerTime).text(fromMillisecondsToTime(newtime));
+                if (0 > time[player]) {
+                    document.getElementById(player).classList.add(classGameOver);
+                } else {
+                    document.getElementById(player).classList.remove(classGameOver);
+                }
+            }
+        }
 
-                    $('#' + invert).removeClass('to-move');
-                    $('#' + state).addClass('to-move');
-                    if (newtime < 0) {
-                        $('#' + state).addClass("gameover");
-                    }
-                }, interval);
-            });
-        </script>
+        render(state, time);
+        var refreshId = setInterval(function() {
+            if ('pause' == state) {
+                return;
+            }
 
-    </body>
+            time[state] = time[state] - interval;
+            render(state, time);
+        }, interval);
+
+        function fromMillisecondsToTime(seconds) {
+            seconds = Math.round(seconds / 1000);
+            var time = '' + ((seconds < 0) ?
+                '-' :
+                '') + (Math.abs(Math.round(seconds / 60)) < 10 ?
+                '0' :
+                '') + Math.abs(Math.round(seconds / 60)) + ':' + (Math.abs(seconds % 60) < 10 ?
+                '0' :
+                '') + Math.abs(seconds % 60);
+
+            return time;
+        }
+
+        var clock = document.getElementById("chessclock");
+        clock.addEventListener("click", function(e) {
+            console.log('tek');
+            state = state == 'white' ? 'black' : 'white';
+        }, false);
+    </script>
+
+</body>
+
 </html>
