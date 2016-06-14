@@ -24,22 +24,22 @@
             color: black;
             width: 50%;
             float: left;
+            text-align: center;
         }
 
-        .player.gameover {
+        .gameover {
             background-color: grey;
             color: white;
         }
 
-        .player.gameover.to-move {
+        .gameover.to-move {
             background-color: black;
+        }
+
+        .to-move {
             color: red;
         }
-
-        .player div {
-            text-align: center;
-        }
-
+        
         .name {
             font-size: 3vw;
         }
@@ -48,35 +48,31 @@
             font-size: 15vw;
         }
 
-        .to-move {
-            color: red;
-        }
-
         input {
-          font-size: 3vw;
-          width: 3em;
+            font-size: 3vw;
+            width: 3em;
         }
     </style>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 
 <body>
-    <div id="chessclock" class="pure-g">
-        <div id="white" class="player pure-u-1-2">
+    <div id="chessclock">
+        <div id="white" class="player">
             <div class="name">White</div>
             <div class="time"></div>
         </div>
-        <div id="black" class="player pure-u-1-2">
+        <div id="black" class="player">
             <div class="name">Black</div>
             <div class="time"></div>
         </div>
     </div>
 
-    <div id="configs" class="pure-g">
-        <form name="reset" action="#" class="pure-form">
-            <input type="number" id="ms-white" name="white" placeholder="White" value="900" />
-            <input type="number" id="ms-black" name="black" placeholder="Black" value="900" />
-            <input type="button" id="reset" value="set" class="pure-button pure-button-primary" />
+    <div id="configs">
+        <form>
+            <input type="number" id="ms-white" placeholder="White" value="900" />
+            <input type="number" id="ms-black" placeholder="Black" value="900" />
+            <input type="button" id="reset" value="set" />
         </form>
     </div>
 
@@ -151,4 +147,5 @@
         }, false);
     </script>
 </body>
+
 </html>
