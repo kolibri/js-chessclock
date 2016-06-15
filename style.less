@@ -1,0 +1,111 @@
+@player-bg: white;
+@player-color: black;
+@tomove-color: red;
+@gameover-bg: grey;
+@gameover-color: white;
+@gameover-tomove-bg: black;
+@gameover-tomove-color: red;
+@vp-height: `Math.max(document.documentElement.clientHeight, window.innerHeight || 0)`;
+@vp-width: `Math.max(document.documentElement.clientWidth, window.innerWidth || 0)`;
+/*height: ~"@{winheight}px";*/
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    * {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+    #chessclock {
+        width: 100%;
+        height: 100%;
+    }
+    .player {
+        background-color: @player-bg;
+        color: @player-color;
+        text-align: center;
+        /*position: relative;*/
+    }
+    /*.info {
+        width: 90vmin;
+        height: 90vmin;
+    }*/
+    @media (orientation: landscape) {
+        .player {
+            height: 100vh;
+            width: 50%;
+            float: left;
+        }
+        .info {
+            position: relative;
+            /*top: 50%;*/
+            transform: translateY(-50%);
+        }
+
+        .square(@size) {
+            height: ~"@{size}px";
+            width: ~"@{size}px";
+        }
+        .info {
+            .square(@vp-height);
+        }
+        .info when (@vp-width/2 < @vp-height) {
+            .square(@vp-width/2);
+        }
+        .player.black .info when (@vp-width/2 > = @vp-height) {
+            float: right;
+        }
+        #white .info {
+            transform: rotate(90deg);
+        }
+        #black .info {
+            transform: rotate(-90deg);
+        }
+        .name {
+            padding-top: 3em;
+            font-size: 10vh;
+        }
+        .time {
+            font-size: 30vh;
+        }
+    }
+    @media (orientation: portrait) {
+        .player {
+            height: 50vh;
+            width: 100vw;
+        }
+        .player .info {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        #white {
+            transform: rotate(180deg);
+        }
+        .name {
+            padding-top: 3em;
+            font-size: 10vw;
+        }
+        .time {
+            font-size: 30vw;
+        }
+    }
+    .gameover {
+        background-color: @gameover-bg;
+        color: @gameover-color;
+    }
+    .gameover.to-move {
+        background-color: @gameover-tomove-bg;
+        color: @gameover-tomove-color;
+    }
+    .to-move {
+        color: @tomove-color;
+    }
+    input {
+        background-color: white;
+        font-size: 10vw;
+        width: 3em;
+    }
+}
