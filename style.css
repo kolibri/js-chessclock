@@ -1,0 +1,114 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /*.info {
+        width: 90vmin;
+        height: 90vmin;
+    }*/
+}
+body *,
+html * {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+body #chessclock,
+html #chessclock {
+  width: 100%;
+  height: 100%;
+}
+body .player,
+html .player {
+  background-color: white;
+  color: black;
+  text-align: center;
+  /*position: relative;*/
+}
+@media (orientation: landscape) {
+  body .player,
+  html .player {
+    height: 100vh;
+    width: 50%;
+    float: left;
+  }
+  body .info,
+  html .info {
+    position: relative;
+    /*top: 50%;*/
+    transform: translateY(-50%);
+  }
+  body .info,
+  html .info {
+    height: 99vh;
+    width: 100%;
+  }
+  body .player.black,
+  html .player.black {
+    float: right;
+  }
+  body #white .info,
+  html #white .info {
+    transform: rotate(90deg);
+  }
+  body #black .info,
+  html #black .info {
+    transform: rotate(-90deg);
+  }
+  body .name,
+  html .name {
+    padding-top: 3em;
+    font-size: 10vh;
+  }
+  body .time,
+  html .time {
+    font-size: 30vh;
+  }
+}
+@media (orientation: portrait) {
+  body .player,
+  html .player {
+    height: 50vh;
+    width: 100vw;
+  }
+  body .player .info,
+  html .player .info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  body #white,
+  html #white {
+    transform: rotate(180deg);
+  }
+  body .name,
+  html .name {
+    padding-top: 3em;
+    font-size: 10vw;
+  }
+  body .time,
+  html .time {
+    font-size: 30vw;
+  }
+}
+body .gameover,
+html .gameover {
+  background-color: grey;
+  color: white;
+}
+body .gameover.to-move,
+html .gameover.to-move {
+  background-color: black;
+  color: red;
+}
+body .to-move,
+html .to-move {
+  color: red;
+}
+body input,
+html input {
+  background-color: white;
+  font-size: 10vw;
+  width: 3em;
+}
