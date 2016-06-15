@@ -5,9 +5,7 @@
 @gameover-color: white;
 @gameover-tomove-bg: black;
 @gameover-tomove-color: red;
-@vp-height: `Math.max(document.documentElement.clientHeight, window.innerHeight || 0)`;
-@vp-width: `Math.max(document.documentElement.clientWidth, window.innerWidth || 0)`;
-/*height: ~"@{winheight}px";*/
+
 body,
 html {
     margin: 0;
@@ -44,17 +42,11 @@ html {
             transform: translateY(-50%);
         }
 
-        .square(@size) {
-            height: ~"@{size}px";
-            width: ~"@{size}px";
-        }
         .info {
-            .square(@vp-height);
+          height: 99vh;
+          width: 100%;
         }
-        .info when (@vp-width/2 < @vp-height) {
-            .square(@vp-width/2);
-        }
-        .player.black .info when (@vp-width/2 > = @vp-height) {
+        .player.black {
             float: right;
         }
         #white .info {
@@ -107,5 +99,9 @@ html {
         background-color: white;
         font-size: 10vw;
         width: 3em;
+    }
+
+    .pause .to-move {
+
     }
 }
