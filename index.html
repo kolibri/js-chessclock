@@ -20,11 +20,31 @@
 
         .player {
             background-color: white;
-            height: 100%;
             color: black;
-            width: 50%;
-            float: left;
             text-align: center;
+        }
+
+        @media (orientation: landscape) {
+            .player {
+                height: 100%;
+                width: 50%;
+                float: left;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .player {
+                height: 50%;
+                color: black;
+                width: 100%;
+            }
+            .player div {
+                position: relative;
+                top: 25%;
+            }
+            #white {
+                transform: rotate(180deg);
+            }
         }
 
         .gameover {
@@ -82,8 +102,8 @@
         var interval = 10;
         var state = 'pause';
         var time = {
-            'white': 900 * 1000, // 15min
-            'black': 900 * 1000
+            'white': 2   * 1000, // 15min
+            'black': 2   * 1000
         };
 
         function render(state, time) {
@@ -118,11 +138,11 @@
             seconds = Math.round(seconds / 1000);
             var time = '' +
                 ((seconds < 0) ? '-' : '') +
-                (Math.abs(Math.floor(seconds / 60)) < 10 ? '0' : '') +
-                Math.abs(Math.floor(seconds / 60)) +
+                (Math.floor(Math.abs(seconds / 60)) < 10 ? '0' : '') +
+                 Math.floor(Math.abs(seconds / 60)) +
                 ':' +
                 (Math.abs(seconds % 60) < 10 ? '0' : '') +
-                Math.abs(seconds % 60);
+                 Math.abs(seconds % 60);
 
             return time;
         }
